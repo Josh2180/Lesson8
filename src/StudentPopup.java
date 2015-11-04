@@ -1,3 +1,7 @@
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -31,8 +35,8 @@ public class StudentPopup extends javax.swing.JDialog {
         txtname = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblmarks = new javax.swing.JTable();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        btnok = new javax.swing.JToggleButton();
+        btncancel = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -50,14 +54,14 @@ public class StudentPopup extends javax.swing.JDialog {
         tblmarks.setRowSelectionAllowed(false);
         jScrollPane1.setViewportView(tblmarks);
 
-        jToggleButton1.setText("OK");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnok.setText("OK");
+        btnok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                btnokActionPerformed(evt);
             }
         });
 
-        jToggleButton2.setText("Cancel");
+        btncancel.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,10 +78,9 @@ public class StudentPopup extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnok, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(52, 52, 52)
-                        .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btncancel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(84, 84, 84)))
                 .addContainerGap())
         );
@@ -92,8 +95,8 @@ public class StudentPopup extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jToggleButton2))
+                    .addComponent(btnok)
+                    .addComponent(btncancel))
                 .addContainerGap())
         );
 
@@ -102,14 +105,30 @@ public class StudentPopup extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        temp.setName(txtname.getText());
-        temp.setMark(1, Integer.parseInt(tblmarks.getValueAt(0, 0).toString()));
-        temp.setMark(2, Integer.parseInt(tblmarks.getValueAt(0, 1).toString()));
-        temp.setMark(3, Integer.parseInt(tblmarks.getValueAt(0, 2).toString()));
+    private void btnokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnokActionPerformed
+        int marks[] = new int[3];
+        String name = txtname.getText();
+        try{
+            marks[0] = Integer.parseInt(tblmarks.getValueAt(0,0).toString());
+            marks[1] = Integer.parseInt(tblmarks.getValueAt(0,1).toString());
+            marks[2] = Integer.parseInt(tblmarks.getValueAt(0,2).toString());
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Fill out all fields\n(press <enter> on each mark)");
+            return;
+        }
+        temp = new Student(name, marks);
         this.dispose();
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_btnokActionPerformed
 
+    public void setForm(Student s){
+        DefaultTableModel model = (DefaultTableModel)(tblmarks.getModel());
+        txtname.setText(s.getName());
+        model.setValueAt(s.getScore(1), 0,0);
+        model.setValueAt(s.getScore(2), 0,1);
+        model.setValueAt(s.getScore(3), 0,2);
+    }
+    
     public Student getStudent(){
         return temp;
     }
@@ -156,10 +175,10 @@ public class StudentPopup extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btncancel;
+    private javax.swing.JToggleButton btnok;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JTable tblmarks;
     private javax.swing.JTextField txtname;
     // End of variables declaration//GEN-END:variables
