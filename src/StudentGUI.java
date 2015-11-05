@@ -1,9 +1,11 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author josh2180
@@ -11,21 +13,25 @@
 public class StudentGUI extends javax.swing.JFrame {
 
     Student s[];
-    int size, currentStudent;
+    int size, currentStudent, count, index;
 
     public StudentGUI() {
         initComponents();
-        s = new Student[size];
-        size = -1;
-        currentStudent = -1;
+        s = new Student[10];
+        size = 0;
+        currentStudent = 0;
+        count = 0;
+        index = 0;
     }
 
     public void showStudent() {
         txtname.setText("" + s[currentStudent].getName());
-        txtmark1.setText(""+s[currentStudent].getScore(1));
-        txtmark2.setText(""+s[currentStudent].getScore(2));
-        txtmark3.setText(""+s[currentStudent].getScore(3));
-        txtaverage.setText(""+s[currentStudent].getAverage());
+        txtmark1.setText("" + s[currentStudent].getScore(1));
+        txtmark2.setText("" + s[currentStudent].getScore(2));
+        txtmark3.setText("" + s[currentStudent].getScore(3));
+        txtaverage.setText("" + s[currentStudent].getAverage());
+        txtcount.setText("" + count);
+        txtindex.setText("" + index);
     }
 
     /**
@@ -53,6 +59,10 @@ public class StudentGUI extends javax.swing.JFrame {
         txtaverage = new javax.swing.JTextField();
         btnadd = new javax.swing.JButton();
         btnmodify = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtindex = new javax.swing.JTextField();
+        txtcount = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,6 +128,14 @@ public class StudentGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("Count:");
+
+        jLabel7.setText("Current Index:");
+
+        txtindex.setEditable(false);
+
+        txtcount.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,6 +163,8 @@ public class StudentGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel5))
                                 .addGap(7, 7, 7)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtaverage)
+                                    .addComponent(txtmark3, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnfirst, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -152,11 +172,16 @@ public class StudentGUI extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnnext, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnlast, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtaverage)
-                                    .addComponent(txtmark3, javax.swing.GroupLayout.Alignment.TRAILING))))
-                        .addGap(18, 18, 18)
+                                        .addComponent(btnlast, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtcount, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtindex, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnmodify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnadd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -193,7 +218,13 @@ public class StudentGUI extends javax.swing.JFrame {
                     .addComponent(btnprev)
                     .addComponent(btnnext)
                     .addComponent(btnlast))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(txtindex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtcount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -201,19 +232,22 @@ public class StudentGUI extends javax.swing.JFrame {
 
     private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
         currentStudent = 0;
+        index = 1;
         showStudent();
     }//GEN-LAST:event_btnfirstActionPerformed
 
     private void btnprevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprevActionPerformed
-        if(currentStudent>0){
-            currentStudent --;
+        if (currentStudent > 0) {
+            currentStudent--;
+            index--;
             showStudent();
         }
     }//GEN-LAST:event_btnprevActionPerformed
 
     private void btnnextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnextActionPerformed
-        if(currentStudent<size-1 && currentStudent>-1){
-            currentStudent ++;
+        if (currentStudent < size - 1 && currentStudent > -1) {
+            currentStudent++;
+            index++;
             showStudent();
         }
     }//GEN-LAST:event_btnnextActionPerformed
@@ -221,16 +255,23 @@ public class StudentGUI extends javax.swing.JFrame {
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
         StudentPopup sp = new StudentPopup(this, true);
         sp.setVisible(true);
-        Student s[currentStudent] = sp.getStudent();
-        
+        s[size] = sp.getStudent();
+        showStudent();
+        size++;
+        currentStudent = size;
+        count++;
+        index++;
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void btnmodifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifyActionPerformed
-
+        StudentPopup sp = new StudentPopup(this, true);
+        sp.setVisible(true);
+        sp.setForm(s[currentStudent]);
     }//GEN-LAST:event_btnmodifyActionPerformed
 
     private void btnlastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlastActionPerformed
-        currentStudent = 9;
+        currentStudent = size - 1;
+        index = size;
         showStudent();
     }//GEN-LAST:event_btnlastActionPerformed
 
@@ -281,7 +322,11 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField txtaverage;
+    private javax.swing.JTextField txtcount;
+    private javax.swing.JTextField txtindex;
     private javax.swing.JTextField txtmark1;
     private javax.swing.JTextField txtmark2;
     private javax.swing.JTextField txtmark3;
