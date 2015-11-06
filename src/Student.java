@@ -4,9 +4,9 @@ public class Student {
     private String name;
 
     private int test[] = new int[3];
-    
-    public Student(){
-        
+
+    public Student() {
+
     }
 
     public Student(String nm, int t[]) {
@@ -48,19 +48,14 @@ public class Student {
     }
 
     //validate data
-    public String validateData() {
-        String errormessage = null;
+    public boolean validateData() {
+
         if (name.length() < 2) {
-            errormessage = ("Name is required\n");
+            return false;
+        } else if (test[0] < 0 || test[0] > 100 || test[1] < 0 || test[1] > 100 || test[2] < 0 || test[2] > 100) {
+            return false;
+        } else {
+            return true;
         }
-
-        if (test[0] < 0 || test[0] > 100 || test[1] < 0 || test[1] > 100 || test[2] < 0 || test[2] > 100) {
-            errormessage += ("At least one mark is not within acceptable range.");
-        }
-
-        if (errormessage != null) {
-            errormessage += ("\n Please re-enter all data.");
-        }
-        return errormessage;
     }
 }
